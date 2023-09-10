@@ -1,0 +1,47 @@
+
+pipeline {
+    agent any
+    environment {
+        DIRECTORY_PATH='PATH'
+        TESTING_ENVIRONEMENT='JENKINS'
+        PRODUCTION_ENVIRONMENT='AMELIA'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Fetch the source code from the directory path specified by the environment variable.'
+                echo "Directory Path: ${DIRECTORY_PATH}"
+                echo 'Compile the code and generate any necessary artifacts'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Unit test: some data'
+                echo 'Integration tests: some data'
+            }
+        }
+        stage('Code Quality Check') {
+            steps {
+                echo 'Checking the quality of the code.'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploy the application to a testing environment specified by the environment variable.'
+                echo 'Environment variable: ${TESTING_ENVIRONMENT}'
+            }
+        }
+        stage('Approval') {
+            steps {
+                echo 'Approving...'
+                sleep 10
+                echo 'Approved.'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo "Deploy code to ${PRODUCTION_ENVIRONMENT}"
+            }
+        }
+    }
+}
