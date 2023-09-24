@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
     environment {
@@ -17,8 +16,8 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Use test automation tool, such as Selenium.'
-                echo 'Unit test: some data.'
-                echo 'Integration tests: some data.'
+                echo 'Unit test: some data'
+                echo 'Integration tests: some data'
             }
             post{
                 success{
