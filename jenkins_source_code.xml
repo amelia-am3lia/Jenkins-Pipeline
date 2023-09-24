@@ -4,90 +4,92 @@ pipeline {
     environment {
         DIRECTORY_PATH='PATH'
         TESTING_ENVIRONEMENT='JENKINS'
-        PRODUCTION_ENVIRONMENT='AMELIA'
     }
     stages {
         stage('Build') {
             steps {
+                echo 'Use build automation tool, such as Gradle.'
                 echo 'Fetch the source code from the directory path specified by the environment variable.'
                 echo "Directory Path: ${DIRECTORY_PATH}"
-                echo 'Compile the code and generate any necessary artifacts'
+                echo 'Compile the code and generate any necessary artifacts.'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
+                echo 'Use test automation tool, such as Selenium.'
                 echo 'Unit test: some data'
                 echo 'Integration tests: some data'
             }
             post{
                 success{
                     emailext to: "asouthamusc@gmail.com",
-                    subject: "Build status email",
+                    subject: "Unit and integration testing: status email",
                     attachLog: true,
-                    body: "Build was successful!"
+                    body: "Testing was successful!"
                 }
                 failure{
                     emailext to: "asouthamusc@gmail.com",
-                    subject: "Build status email",
+                    subject: "Unit and integration testing: status email",
                     attachLog: true,
-                    body: "Build was unsuccessful."
+                    body: "Testing was unsuccessful."
                 }
             }
         }
         stage('Code Analysis') {
             steps {
-                echo 'Checking the quality of the code.'
+                echo 'Use code analysis tool, such as CheckStyle.'
+                echo 'Check the quality of the code.'
             }
         }
         stage('Security Scan') {
             steps {
-                echo 'Deploy the application to a testing environment specified by the environment variable.'
-                echo 'Environment variable: ${TESTING_ENVIRONMENT}'
+                echo 'Use a tool to perform a security scan on the code, such as Jenkins Security Scan or Probely Plugin.'
+                echo 'Scan the code and identify vulnerabilities.'
             }
             post{
                 success{
                     emailext to: "asouthamusc@gmail.com",
-                    subject: "Build status email",
+                    subject: "Security scan status email",
                     attachLog: true,
-                    body: "Build was successful!"
+                    body: "Scan found no vulnerabilities."
                 }
                 failure{
                     emailext to: "asouthamusc@gmail.com",
-                    subject: "Build status email",
+                    subject: "Security scan status email",
                     attachLog: true,
-                    body: "Build was unsuccessful."
+                    body: "Scan returned vulnerabilities."
                 }
             }
         }
         stage('Deploy to Staging') {
             steps {
-                echo 'Approving...'
-                sleep 10
-                echo 'Approved.'
+                echo 'Deploy to a staging server.'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                echo "Deploy code to ${PRODUCTION_ENVIRONMENT}"
+                echo 'Deploy the application to a testing environment specified by the environment variable.'
+                echo 'Environment variable: ${TESTING_ENVIRONMENT}'
+                echo 'Confirm code functions expectedly in the environment.'
             }
             post{
                 success{
                     emailext to: "asouthamusc@gmail.com",
-                    subject: "Build status email",
+                    subject: "Integration testing on staging: status email",
                     attachLog: true,
-                    body: "Build was successful!"
+                    body: "Testing was successful!"
                 }
                 failure{
                     emailext to: "asouthamusc@gmail.com",
-                    subject: "Build status email",
+                    subject: "Integration testing on staging: status email",
                     attachLog: true,
-                    body: "Build was unsuccessful."
+                    body: "Testing was unsuccessful."
                 }
             }
         }
         stage('Deploy to Production') {
             steps {
-                echo "Deploy code to ${PRODUCTION_ENVIRONMENT}"
+                echo 'Deploy code to a production server.'
             }
         }
     }
