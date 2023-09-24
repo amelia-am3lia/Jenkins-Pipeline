@@ -13,6 +13,12 @@ pipeline {
                 echo "Directory Path: ${DIRECTORY_PATH}"
                 echo 'Compile the code and generate any necessary artifacts'
             }
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Unit test: some data'
+                echo 'Integration tests: some data'
+            }
             post{
                 success{
                     emailext to: "asouthamusc@gmail.com",
@@ -20,30 +26,63 @@ pipeline {
                     attachLog: true,
                     body: "Build was successful!"
                 }
+                failure{
+                    emailext to: "asouthamusc@gmail.com",
+                    subject: "Build status email",
+                    attachLog: true,
+                    body: "Build was unsuccessful."
+                }
             }
         }
-        stage('Polling') {
-            steps {
-                echo 'Unit test: some data'
-                echo 'Integration tests: some data'
-            }
-        }
-        stage('Code Quality Check') {
+        stage('Code Analysis') {
             steps {
                 echo 'Checking the quality of the code.'
             }
         }
-        stage('Deploy') {
+        stage('Security Scan') {
             steps {
                 echo 'Deploy the application to a testing environment specified by the environment variable.'
                 echo 'Environment variable: ${TESTING_ENVIRONMENT}'
             }
+            post{
+                success{
+                    emailext to: "asouthamusc@gmail.com",
+                    subject: "Build status email",
+                    attachLog: true,
+                    body: "Build was successful!"
+                }
+                failure{
+                    emailext to: "asouthamusc@gmail.com",
+                    subject: "Build status email",
+                    attachLog: true,
+                    body: "Build was unsuccessful."
+                }
+            }
         }
-        stage('Approval') {
+        stage('Deploy to Staging') {
             steps {
                 echo 'Approving...'
                 sleep 10
                 echo 'Approved.'
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo "Deploy code to ${PRODUCTION_ENVIRONMENT}"
+            }
+            post{
+                success{
+                    emailext to: "asouthamusc@gmail.com",
+                    subject: "Build status email",
+                    attachLog: true,
+                    body: "Build was successful!"
+                }
+                failure{
+                    emailext to: "asouthamusc@gmail.com",
+                    subject: "Build status email",
+                    attachLog: true,
+                    body: "Build was unsuccessful."
+                }
             }
         }
         stage('Deploy to Production') {
