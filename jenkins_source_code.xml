@@ -17,7 +17,8 @@ pipeline {
                 success{
                     mail to: "asouthamusc@gmail.com",
                     subject: "Build status email",
-                    body: "Build was successful!"
+                    body: "Build was successful!",
+                    attachLog: true
                 }
             }
         }
