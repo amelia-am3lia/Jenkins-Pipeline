@@ -14,7 +14,7 @@ pipeline {
                 echo 'Compile the code and generate any necessary artifacts'
             }
         }
-        stage('Test') {
+        stage('Test Polling') {
             steps {
                 echo 'Unit test: some data'
                 echo 'Integration tests: some data'
