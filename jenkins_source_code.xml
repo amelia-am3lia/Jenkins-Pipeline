@@ -13,8 +13,15 @@ pipeline {
                 echo "Directory Path: ${DIRECTORY_PATH}"
                 echo 'Compile the code and generate any necessary artifacts'
             }
+            post{
+                success{
+                    mail to: "asouthamusc@gmail.com",
+                    subject: "Build status email",
+                    body: "Build was successful!"
+                }
+            }
         }
-        stage('Test Polling') {
+        stage('Polling') {
             steps {
                 echo 'Unit test: some data'
                 echo 'Integration tests: some data'
